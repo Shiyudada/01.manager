@@ -9,6 +9,8 @@ Vue.use(VueRouter)
 import login from '../components/login.vue'
 // 路由规则
 let routes =[
+    // 重定向
+    {path:'',redirect:'login'},
     {path:'/login',component:login}
 ]
 // /路由实例化
