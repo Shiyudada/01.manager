@@ -5,7 +5,6 @@
 <el-form 
   :model="formData" 
   status-icon
-
   ref="ruleForm2" 
   label-width="100px" 
   class="demo-ruleForm" 
@@ -20,7 +19,7 @@
     <el-input type="password" v-model.trim="formData.password" autocomplete="off"></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button  class="login-btn" type="primary" @click="submitForm('ruleForm2')">提交</el-button>
+    <el-button  class="login-btn" type="primary"  @click="submitForm('ruleForm2')">提交</el-button>
  
   </el-form-item>
 </el-form>
@@ -53,17 +52,36 @@ export default {
         }
        
       
+
       };
     },
      methods: {
+      //  表单验证,饿了么ui里面的
       submitForm(formName) {
+        // 提交数据之前的验证
         this.$refs[formName].validate((valid) => {
+          console.log(valid)
           if (valid) {
-            alert('submit!');
+           
+            this.$http.post('login',this.formData).then(res=>{
+              console.log(res)
+              if(res.data.meta.status===400){
+                 this.$message.error(res.data.meta.msg);
+              }else{
+                 this.$message.success(res.data.meta.msg);
+                //  保存token
+                window.sessionStorage.setItem('token',res.data.data.token)
+                // 跳转网址
+                this.$router.push('/index')
+              }
+            })
+                this.$message.success('提交成功');
+
           } else {
             // console.log('error submit!!');
             // 饿了么ui里面的消息提示组件
-             this.$message.error('提交错误');
+            // 提交数据错误
+             this.$message.error('请输入正确的用户名和密码');
             return false;
           }
         });
@@ -79,7 +97,7 @@ export default {
        margin: 0;
        padding: 0;
    }
-   /* 这里不能直接写body>div,因为添加了警告组件,他自己自动生成了一个同级div,就相当于不是控制这一个diV了,那么提示框也会变成height100% */
+   /* 这里不能直接写body>div,因为添加了警告组件,他自己自动生成了一个同级div,就相当于不是控制这一个diV了,那么提示框也会变成height100%,所以直接控制它的首个div就好了 */
    body>div:nth-of-type(1){
        height: 100%;
    }

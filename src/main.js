@@ -11,7 +11,9 @@ Vue.use(ElementUI)
 
 // 导入暴露的路由
 import router from './lib/router'
-
+// 导入暴露的axios
+import myhttp from './lib/myhttp'
+Vue.use(myhttp)
 new Vue({
   render: h => h(App),
   router
