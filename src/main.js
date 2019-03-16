@@ -8,7 +8,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI)
 
-
 // 导入暴露的路由
 import router from './lib/router'
 // 导入暴露的axios
@@ -17,7 +16,27 @@ Vue.use(myhttp)
 // 全局导入面包屑组件,并且记得注册
 import mybreadxie from './components/mybreadcrumb.vue'
 Vue.component('mybreadxie',mybreadxie)
+
+// 导入vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
+const store = new Vuex.Store({
+  state: {
+    menuList:[]
+  },
+  mutations: {
+    setMenu(state,newMenu){
+      state.menuList=newMenu
+    }
+    }
+  
+})
+
+
+
 new Vue({
   render: h => h(App),
-  router
+  router,
+  // 设置仓库
+  store
 }).$mount('#app')

@@ -25,7 +25,7 @@
         <!-- 饿了么ui里面的导航插件        这个导航插件  router必须要写他控制是否跳转,而  
                                           index="地址"   index里面填哪一页的path就控制跳到那一页-->
         <el-menu default-active="2" class="el-menu-vertical-demo" router>
-            <el-submenu :index="index+''"    v-for="(item,index) in menuList"   >
+            <el-submenu :index="index+''"    v-for="(item,index) in $store.state.menuList"   >
             <template slot="title"  >
               <i class="el-icon-location"></i>
               <span>{{item.authName}}</span>
@@ -66,15 +66,16 @@ export default {
 
   data() {
     return {
-      menuList:[]
+      // menuList:[]
     }
   },
 
   // 左侧菜单获取
  async created() {
-    let res = await   this.$http.get('menus')
+    let res = await  this.$http.get('menus')
     console.log(res)
-    this.menuList=res.data.data;
+    // this.menuList=res.data.data;
+     this.$store.commit('setMenu',res.data.data)
   },
 
   methods: {
