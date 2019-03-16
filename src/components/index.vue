@@ -22,17 +22,18 @@
     </el-header>
     <el-container>
       <el-aside class="index-aside" width="200px">
-        <!-- 饿了么ui里面的导航插件 -->
+        <!-- 饿了么ui里面的导航插件        这个导航插件  router必须要写他控制是否跳转,而  
+                                          index="地址"   index里面填哪一页的path就控制跳到那一页-->
         <el-menu default-active="2" class="el-menu-vertical-demo" router>
-          <el-submenu index="1">
-            <template slot="title">
+            <el-submenu :index="index+''"    v-for="(item,index) in menuList"   >
+            <template slot="title"  >
               <i class="el-icon-location"></i>
-              <span>用户管理</span>
+              <span>{{item.authName}}</span>
             </template>
 
-            <el-menu-item index="/index/users">
+        <el-menu-item v-for="it in item.children" :index="'/index/'+it.path">
               <span class="el-icon-menu"></span>
-              用户列表
+             {{it.authName}}
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -62,6 +63,19 @@ export default {
   //     }, 3000);
   //   }
   // },
+
+  data() {
+    return {
+      menuList:[]
+    }
+  },
+
+  // 左侧菜单获取
+ async created() {
+    let res = await   this.$http.get('menus')
+    console.log(res)
+    this.menuList=res.data.data;
+  },
 
   methods: {
     // 在这里去做登出的一系列逻辑代码

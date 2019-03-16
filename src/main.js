@@ -14,6 +14,9 @@ import router from './lib/router'
 // 导入暴露的axios
 import myhttp from './lib/myhttp'
 Vue.use(myhttp)
+// 全局导入面包屑组件,并且记得注册
+import mybreadxie from './components/mybreadcrumb.vue'
+Vue.component('mybreadxie',mybreadxie)
 new Vue({
   render: h => h(App),
   router
